@@ -1,7 +1,49 @@
 from urllib import request, error
 import json, os, glob, csv
+import requests
 
-# url = "https://pokeapi.co/api/v2/pokedex/1/"
+
+# url = "https://pokeapi.co/api/v2/pokemon/1/"
+
+def request_data(url):
+
+    try:
+        r = requests.get(url)
+        r.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
+    except requests.exceptions.Timeout as e:
+        print(f"Request timed out: {e}")
+    except requests.exceptions.ConnectionError as e:
+        print(f"Connection error: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+    else:
+        print("Request successful.")
+        data = r.json()
+        return data
+    finally:
+        print("Request finished.")
+
+def record_data(row):
+
+    with open("pokedex.csv", "a", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(row)
+
+def retrieve_data(url):
+
+    data = request_data(url)
+    try:
+        for item in data["pokemon_entries"]:
+            id = item["entry_number"]
+            name  = item["pokemon_species"]["name"]
+            pokemon = (id, name)
+            record_data(pokemon)
+    except Exception as e:
+        print(f"Error is {e}")
+
+
 
 def generationi_csv():
     dirname = "pokemon_varieties_info"
@@ -17,7 +59,7 @@ def generationi_csv():
             try:
                 ptype2 = pdata['types'][1]["type"].get("name")
             except IndexError as e:
-                ptype2 = pdata['types'][0]["type"].get("name")
+                ptype2 = ""
             pstat_hp = pdata['stats'][0]["base_stat"]
             pstat_atta = pdata['stats'][1]["base_stat"]
             pstat_defe = pdata['stats'][2]["base_stat"]
@@ -90,6 +132,10 @@ def show_evolutions():
     for pokemon_file in pokemon_files:
         print(pokemon_file)
 
+def main():
+    url = "https://pokeapi.co/api/v2/pokedex/1/"
+    header = ("id", "name")
+    record_data(header)
+    retrieve_data(url)
 
-remove_evolutions()
-# show_evolutions()
+main()
