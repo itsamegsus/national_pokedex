@@ -25,10 +25,24 @@ def request_data(url):
     finally:
         print("Request finished.")
 
+def add_nrows(row, filename):
+
+    with open(filename, "r", newline="") as f:
+        reader = csv.reader(f)
+        cnt = sum(1 for row in reader)
+        if(cnt != 0):
+            tmp = list(row)
+            tmp.insert(0, cnt)
+            row = tuple(tmp)
+            return row
+        else:
+            return row
+
 def record_data(row, filename):
 
     with open(filename, "a", newline="") as f:
         writer = csv.writer(f)
+        row = add_nrows(row, filename)
         writer.writerow(row)
 
 def retrieve_data(url):
@@ -176,8 +190,10 @@ def show_evolutions():
 
 def main():
     # url = "https://pokeapi.co/api/v2/pokedex/1/"
-    # header = ("id", "name")
+    # header = ("index", "name")
+    header_species = ("index", "id", "name", "generation", "apid")
     # record_data(header)
     # retrieve_data(url)
+    record_data(header_species, "pokedex_species.csv")
     get_all_species()
 main()
