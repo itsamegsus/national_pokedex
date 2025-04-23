@@ -31,6 +31,13 @@ def record_data(row):
         writer = csv.writer(f)
         writer.writerow(row)
 
+
+def record_specie_data(row):
+
+    with open("pokedex_species.csv", "a", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(row)
+
 def retrieve_data(url):
 
     data = request_data(url)
@@ -44,70 +51,92 @@ def retrieve_data(url):
         print(f"Error is {e}")
 
 
+# This function can retrieve this following data:
+# "is_baby"
+# "is_legendary"
+# "is_mythical"
+# "generation" "name"
+# "varieties"
 
-def generationi_csv():
-    dirname = "pokemon_varieties_info"
-    notallow_species = {"gmax", "mega", "x", "y", "build", "mode", "totem", "alola", "galar", "hisui", "breed", "starter", "cap", "star", "belle", "phd", "libre", "cosplay"}
-    os.chdir(dirname)
-    pfiles = sorted(os.listdir(), key=lambda x: int(x.split("_")[0]))
-    for pfile in pfiles: 
-        with open(pfile, "r") as f:
-            pdata= json.load(f)
-            pid = pdata["id"]
-            pname = pdata["name"]
-            ptype1 = pdata['types'][0]["type"].get("name")
-            try:
-                ptype2 = pdata['types'][1]["type"].get("name")
-            except IndexError as e:
-                ptype2 = ""
-            pstat_hp = pdata['stats'][0]["base_stat"]
-            pstat_atta = pdata['stats'][1]["base_stat"]
-            pstat_defe = pdata['stats'][2]["base_stat"]
-            pstat_spat = pdata['stats'][3]["base_stat"]
-            pstat_spde = pdata['stats'][4]["base_stat"]
-            pstat_spee = pdata['stats'][5]["base_stat"]
-            
-            if not pname.split("-")[-1] in notallow_species:                    
-                # print(f"{pid}, {pname}, {ptype1}, {ptype2}, {pstat_hp}, {pstat_atta}, {pstat_defe}, {pstat_spat}, {pstat_spde}, {pstat_spee}") 
-                pinfo = (pid,pname,ptype1,ptype2,pstat_hp,pstat_atta,pstat_defe,pstat_spat,pstat_spde,pstat_spee)
-                with open("pokedex_generationi.csv", "a", newline="") as f:
-                    writer = csv.writer(f)
-                    writer.writerow(pinfo)
-            if pid == 151:
-                break
+def retrieve_species_data(url):
 
-
-def get_info(url, filename, directory_name):    
-    headers = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36" }
-    # directory_name = "pokemon_species_info"
-    if not os.path.exists(f"../{directory_name}"):
-        os.makedirs(f"../{directory_name}")
-                    
+    data = request_data(url)
     try:
-        request_details = request.Request(url, headers=headers)
-        response = request.urlopen(request_details).read()
-        data = json.loads(response.decode("utf-8"))
-        with open(f"../{directory_name}/{filename}", "w", encoding="utf-8") as file:
-            print(f"Creating file for {filename}")
-            json.dump(data, file, ensure_ascii=True, indent=4)
-        # print(response.decode("utf-8"))
-    except error.HTTPError as error:
-        print(error)
+        generation = data["generation"]["name"]
+        id = data["id"]
+        for item in data["varieties"]:
+            specie = item["pokemon"]["name"]
+            url = item["pokemon"]["url"]
+            specie_id = url.split("/")[-2]
+            info = tuple((id, specie, generation, specie_id))
+            record_specie_data(info)
+    except Exception as e:
+        print(f"Error is {e}")
 
-def change_filenames():
-    os.chdir('pokemon_varieties_info')
-    pokemon_files = sorted(os.listdir(), key=lambda x: int(x.split("_")[0]))
-    for pokemon_file in pokemon_files:
-        os.rename(pokemon_file, pokemon_file.upper())
 
-# with open("nationaldex.json", "r") as file:
-#     data = json.load(file)
-#     for item in data["pokemon_entries"]:
-#         entry_number = item["entry_number"]
-#         pokemon_name = item["pokemon_species"]["name"]
-#         pokemon_url =item["pokemon_species"]["url"]
-#         filename = f"{entry_number}_{pokemon_name}.json"
-#         get_info(pokemon_url, filename)
+
+# def generationi_csv():
+#     dirname = "pokemon_varieties_info"
+#     notallow_species = {"gmax", "mega", "x", "y", "build", "mode", "totem", "alola", "galar", "hisui", "breed", "starter", "cap", "star", "belle", "phd", "libre", "cosplay"}
+#     os.chdir(dirname)
+#     pfiles = sorted(os.listdir(), key=lambda x: int(x.split("_")[0]))
+#     for pfile in pfiles: 
+#         with open(pfile, "r") as f:
+#             pdata= json.load(f)
+#             pid = pdata["id"]
+#             pname = pdata["name"]
+#             ptype1 = pdata['types'][0]["type"].get("name")
+#             try:
+#                 ptype2 = pdata['types'][1]["type"].get("name")
+#             except IndexError as e:
+#                 ptype2 = ""
+#             pstat_hp = pdata['stats'][0]["base_stat"]
+#             pstat_atta = pdata['stats'][1]["base_stat"]
+#             pstat_defe = pdata['stats'][2]["base_stat"]
+#             pstat_spat = pdata['stats'][3]["base_stat"]
+#             pstat_spde = pdata['stats'][4]["base_stat"]
+#             pstat_spee = pdata['stats'][5]["base_stat"]
+            
+#             if not pname.split("-")[-1] in notallow_species:                    
+#                 # print(f"{pid}, {pname}, {ptype1}, {ptype2}, {pstat_hp}, {pstat_atta}, {pstat_defe}, {pstat_spat}, {pstat_spde}, {pstat_spee}") 
+#                 pinfo = (pid,pname,ptype1,ptype2,pstat_hp,pstat_atta,pstat_defe,pstat_spat,pstat_spde,pstat_spee)
+#                 with open("pokedex_generationi.csv", "a", newline="") as f:
+#                     writer = csv.writer(f)
+#                     writer.writerow(pinfo)
+#             if pid == 151:
+#                 break
+
+
+# def get_info(url, filename, directory_name):    
+#     headers = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36" }
+#     # directory_name = "pokemon_species_info"
+#     if not os.path.exists(f"../{directory_name}"):
+#         os.makedirs(f"../{directory_name}")
+                    
+#     try:
+#         request_details = request.Request(url, headers=headers)
+#         response = request.urlopen(request_details).read()
+#         data = json.loads(response.decode("utf-8"))
+#         with open(f"../{directory_name}/{filename}", "w", encoding="utf-8") as file:
+#             print(f"Creating file for {filename}")
+#             json.dump(data, file, ensure_ascii=True, indent=4)
+#         # print(response.decode("utf-8"))
+#     except error.HTTPError as error:
+#         print(error)
+
+# def change_filenames():
+#     os.chdir('pokemon_varieties_info')
+#     pokemon_files = sorted(os.listdir(), key=lambda x: int(x.split("_")[0]))
+#     for pokemon_file in pokemon_files:
+#         os.rename(pokemon_file, pokemon_file.upper())
+
+def get_all_species():
+    with open("pokedex.csv", "r") as f:
+        csv_reader = csv.DictReader(f)
+        url = "https://pokeapi.co/api/v2/pokemon-species/"
+        for row in csv_reader:
+            full_url = f"{url}{row['name']}"
+            retrieve_species_data(full_url)
 
 # os.chdir('pokemon_species_info')
 # files: coming from os.listdir() sorted alphabetically, thus not numerically
@@ -133,9 +162,9 @@ def show_evolutions():
         print(pokemon_file)
 
 def main():
-    url = "https://pokeapi.co/api/v2/pokedex/1/"
-    header = ("id", "name")
-    record_data(header)
-    retrieve_data(url)
-
+    # url = "https://pokeapi.co/api/v2/pokedex/1/"
+    # header = ("id", "name")
+    # record_data(header)
+    # retrieve_data(url)
+    get_all_species()
 main()
