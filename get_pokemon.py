@@ -189,11 +189,11 @@ def show_evolutions():
         print(pokemon_file)
 
 def main():
-    # url = "https://pokeapi.co/api/v2/pokedex/1/"
-    # header = ("index", "name")
+    url = "https://pokeapi.co/api/v2/pokedex/1/"
+    header = ("index", "id" "name")
     header_species = ("index", "id", "name", "generation", "apid")
-    # record_data(header)
-    # retrieve_data(url)
+    record_data(header, "pokedex.csv")
+    retrieve_data(url)
     record_data(header_species, "pokedex_species.csv")
     get_all_species()
 main()
