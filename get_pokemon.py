@@ -31,13 +31,6 @@ def record_data(row, filename):
         writer = csv.writer(f)
         writer.writerow(row)
 
-
-def record_specie_data(row):
-
-    with open("pokedex_species.csv", "a", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(row)
-
 def retrieve_data(url):
 
     data = request_data(url)
