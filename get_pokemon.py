@@ -25,9 +25,9 @@ def request_data(url):
     finally:
         print("Request finished.")
 
-def record_data(row):
+def record_data(row, filename):
 
-    with open("pokedex.csv", "a", newline="") as f:
+    with open(filename, "a", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(row)
 
@@ -46,7 +46,7 @@ def retrieve_data(url):
             id = item["entry_number"]
             name  = item["pokemon_species"]["name"]
             pokemon = (id, name)
-            record_data(pokemon)
+            record_data(pokemon, "pokedex.csv")
     except Exception as e:
         print(f"Error is {e}")
 
@@ -69,7 +69,7 @@ def retrieve_species_data(url):
             url = item["pokemon"]["url"]
             specie_id = url.split("/")[-2]
             info = tuple((id, specie, generation, specie_id))
-            record_specie_data(info)
+            record_data(info, "pokedex_species.csv")
     except Exception as e:
         print(f"Error is {e}")
 
