@@ -55,13 +55,33 @@ def retrieve_species_data(url):
 
     data = request_data(url)
     try:
-        generation = data["generation"]["name"]
+        s_generation = data["generation"]["name"]
         id = data["id"]
+        match s_generation:
+            case "generation-i":
+                i_gen = 1
+            case "generation-ii":
+                i_gen = 2
+            case "generation-iii":
+                i_gen = 3
+            case "generation-iv":
+                i_gen = 4
+            case "generation-v":
+                i_gen = 5
+            case "generation-vi":
+                i_gen = 6
+            case "generation-vii":
+                i_gen = 7
+            case "generation-viii":
+                i_gen = 8
+            case "generation-ix":
+                i_gen = 9
+
         for item in data["varieties"]:
             specie = item["pokemon"]["name"]
             url = item["pokemon"]["url"]
             specie_id = url.split("/")[-2]
-            info = tuple((id, specie, generation, specie_id))
+            info = tuple((id, specie, i_gen, specie_id))
             record_data(info, "pokedex_species.csv")
     except Exception as e:
         print(f"Error is {e}")
