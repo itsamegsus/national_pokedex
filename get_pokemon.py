@@ -92,10 +92,24 @@ def retrieve_species_data(url):
                 i_gen = 9
 
         for item in data["varieties"]:
+            info = list([])
             specie = item["pokemon"]["name"]
             url = item["pokemon"]["url"]
             specie_id = url.split("/")[-2]
-            info = tuple((id, specie, i_gen, specie_id))
+            info.append(id)
+            info.append(specie)
+            pokemon = request_data(url)
+            type1 = pokemon["types"][0]["type"].get("name")
+            info.append(type1)
+            try:
+                type2 = pokemon["types"][1]["type"].get("name")
+                info.append(type2)
+            except IndexError as e:
+                type2 = ""
+                info.append(type2)
+            info.append(i_gen)
+            info.append(specie_id)
+            info = tuple(info)
             record_data(info, "pokedex_species.csv")
     except Exception as e:
         print(f"Error is {e}")
@@ -191,7 +205,7 @@ def show_evolutions():
 def main():
     url = "https://pokeapi.co/api/v2/pokedex/1/"
     header = ("index", "id" "name")
-    header_species = ("index", "id", "name", "generation", "apid")
+    header_species = ("index", "id", "name", "type1", "type2", "generation", "apid")
     record_data(header, "pokedex.csv")
     retrieve_data(url)
     record_data(header_species, "pokedex_species.csv")
