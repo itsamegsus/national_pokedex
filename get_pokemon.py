@@ -57,7 +57,50 @@ def retrieve_data(url):
     except Exception as e:
         print(f"Error is {e}")
 
+def pokemon_type(type):
 
+    match type:
+        case "normal":
+            type = 1
+        case "grass":
+            type = 2
+        case "fire":
+            type = 3
+        case "water":
+            type = 4
+        case "electric":
+            type = 5
+        case "fighting":
+            type = 6
+        case "flying":
+            type = 7
+        case "poison":
+            type = 8
+        case "ground":
+            type = 9
+        case "psychic":
+            type = 10
+        case "rock":
+            type = 11
+        case "ice":
+            type = 12
+        case "bug":
+            type = 13
+        case "dragon":
+            type = 14
+        case "ghost":
+            type = 15
+        case "dark":
+            type = 16
+        case "steel":
+            type = 17
+        case "fairy":
+            type = 18
+        case "stellar":
+            type = 19
+        case _:
+            type = 0
+    return type
 # This function can retrieve this following data:
 # "is_baby"
 # "is_legendary"
@@ -99,13 +142,13 @@ def retrieve_species_data(url):
             info.append(id)
             info.append(specie)
             pokemon = request_data(url)
-            type1 = pokemon["types"][0]["type"].get("name")
+            type1 = pokemon_type(pokemon["types"][0]["type"].get("name"))
             info.append(type1)
             try:
-                type2 = pokemon["types"][1]["type"].get("name")
+                type2 = pokemon_type(pokemon["types"][1]["type"].get("name"))
                 info.append(type2)
             except IndexError as e:
-                type2 = ""
+                type2 = pokemon_type("")
                 info.append(type2)
             info.append(i_gen)
             info.append(specie_id)
