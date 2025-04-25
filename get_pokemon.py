@@ -247,8 +247,8 @@ def show_evolutions():
 
 def main():
     url = "https://pokeapi.co/api/v2/pokedex/1/"
-    header = ("index", "id" "name")
-    header_species = ("index", "id", "name", "type1", "type2", "hp", "attack", "defense", "sp_attack", "sp_defense", "speed", "generation")
+    header = ("index", "id", "name")
+    header_species = ("index", "id", "name", "type1", "type2", "hp", "attack", "defense", "sp_attack", "sp_defense", "speed", "generation", "specie_id")
     record_data(header, "pokedex.csv")
     retrieve_data(url)
     record_data(header_species, "pokedex_species.csv")
