@@ -146,18 +146,26 @@ def retrieve_species_data(url):
             sp_attack = stats[3]["base_stat"]
             sp_defense = stats[4]["base_stat"]
             speed = stats[5]["base_stat"]
+            sprite_url = pokemon["sprites"]["front_default"]
+            download_sprite(sprite_url, specie_id)
             type1 = pokemon_type(pokemon["types"][0]["type"].get("name"))
             try:
                 type2 = pokemon_type(pokemon["types"][1]["type"].get("name"))
             except IndexError as e:
                 type2 = pokemon_type("")
-            pokemon_list = list([id, specie, type1, type2, hp, attack, defense, sp_attack, sp_defense, speed, i_gen])
+            pokemon_list = list([id, specie, type1, type2, hp, attack, defense, sp_attack, sp_defense, speed, i_gen, specie_id])
             info = tuple(pokemon_list)
             record_data(info, "pokedex_species.csv")
     except Exception as e:
         print(f"Error is {e}")
 
-
+def download_sprite(sprite_url, pokemon_specie_id):
+    sprites_dirname = "pokemon_sprites"
+    if not os.path.exists(sprites_dirname):
+        os.makedirs(sprites_dirname)
+    r = requests.get(sprite_url, stream=True)
+    with open(f"{sprites_dirname}/{pokemon_specie_id}.png", 'wb') as file:
+        file.write(r.content)
 
 # def generationi_csv():
 #     dirname = "pokemon_varieties_info"
