@@ -18,8 +18,8 @@ try:
     # con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     con.autocommit = True
     cur = con.cursor()
+    cur.execute(sql.SQL("DROP DATABASE IF EXISTS {}").format(sql.Identifier("pokedex")))
     cur.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier("pokedex")))
-    # cur.execute(sql.SQL("DROP DATABASE {}").format(sql.Identifier("pokedex")))
     cur.close()
     con.commit()
     
