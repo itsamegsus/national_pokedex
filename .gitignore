@@ -1,3 +1,7 @@
 pokedex.csv
 pokedex_species.csv
 pokemon_sprites/*
+log_species
+log_variety
+log_sprites
+script.py
