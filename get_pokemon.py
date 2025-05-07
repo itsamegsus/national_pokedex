@@ -42,7 +42,7 @@ def record_data(row, filename):
 
     with open(filename, "a", newline="") as f:
         writer = csv.writer(f)
-        row = add_nrows(row, filename)
+        # row = add_nrows(row, filename)
         writer.writerow(row)
 
 def retrieve_data(url):
