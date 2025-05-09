@@ -49,6 +49,10 @@ try:
     with open(MAINFILE, "r") as db:
         pokedex = csv.DictReader(db)
         for pokemon in pokedex:
+            information = list(pokemon.values())
+            information.pop(0)
+            if int(information[7])== int('0'):
+                information[7] = None
             query = '''
             INSERT INTO pokemon (
             pokemon_entry,
