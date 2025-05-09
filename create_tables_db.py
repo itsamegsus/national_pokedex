@@ -1,6 +1,7 @@
 import psycopg2
 import csv
 
+MAINFILE = "pokedex_test01.csv"
 DBNAME = "pokedex"
 DBUSER = "postgres"
 DBPASS = "admin"
@@ -45,7 +46,7 @@ try:
     for query in queries:
         cur.execute(query)
 
-    with open("pokedex_species2.csv", "r") as db:
+    with open(MAINFILE, "r") as db:
         pokedex = csv.DictReader(db)
         print(dir(pokedex))
         for pokemon in pokedex:
