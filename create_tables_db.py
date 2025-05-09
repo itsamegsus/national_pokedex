@@ -48,7 +48,6 @@ try:
 
     with open(MAINFILE, "r") as db:
         pokedex = csv.DictReader(db)
-        print(dir(pokedex))
         for pokemon in pokedex:
             query = '''
             INSERT INTO pokemon (
