@@ -2,6 +2,7 @@ import json, csv, os, requests
 
 URL = "https://pokeapi.co/api/v2/pokemon-species"
 ENTRIES = 1025
+MAINFILE = "pokedex.csv"
 SPECIES_LOGFILE = "log_species"
 VARIETY_LOGFILE = "log_variety"
 SPRITES_LOGFILE = "log_sprites"
@@ -112,9 +113,9 @@ def log(line, file):
     with open(file, "a", newline="") as log:
         log.write(line)
 
-def record(data):
+def record(data, filename):
 
-    with open("pokedex_test01.csv", "a", newline="") as pokedex:
+    with open(filename, "a", newline="") as pokedex:
         writer = csv.writer(pokedex)
         writer.writerow(data)
 
@@ -206,6 +207,6 @@ if __name__ == "__main__":
                 pokemon.append(pokemon_spdefense)
                 pokemon.append(pokemon_speed)
                 download_sprite(SPRITES_LOGFILE, pokemon_sprite_url, pokemon_counter, pokemon_name, entry)
-                record(pokemon)
+                record(pokemon, MAINFILE)
             else:
                 continue
