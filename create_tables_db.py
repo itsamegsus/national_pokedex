@@ -59,6 +59,10 @@ try:
             INSERT INTO pokemon (
             pokemon_entry,
             pokemon_name,
+            pokemon_is_baby,
+            pokemon_is_legendary,
+            pokemon_is_mythical,
+            pokemon_generation,
             pokemon_type1,
             pokemon_type2,
             pokemon_hp,
@@ -66,12 +70,10 @@ try:
             pokemon_defense,
             pokemon_spattack,
             pokemon_spdefense,
-            pokemon_speed,
-            pokemon_generation, 
-            pokemon_spriteid
-            ) VALUES {0}'''.format(tuple(pokemon.values()))
-            print(query.format(tuple(pokemon)))
-            cur.execute(query)
+            pokemon_speed
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            '''
+            cur.execute(query, tuple(information))
 
     queries = ("""
         DROP TABLE IF EXISTS pokemon_types CASCADE
