@@ -140,7 +140,7 @@ def request(url, file, cnt):
 
 if __name__ == "__main__":
     header = ["id", "entry", "name", "is_baby", "is_legendary", "is_mythical", "generation", "type1", "type2", "hp", "attack", "defense", "sp_attack", "sp_defense", "speed"]
-    record(header)
+    record(header, MAINFILE)
     pokemon_counter = 0
     for entry in range(ENTRIES):
         entry = entry + 1
