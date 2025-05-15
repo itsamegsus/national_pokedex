@@ -1,7 +1,7 @@
 import psycopg2
 import csv
 
-MAINFILE = "pokedex_test01.csv"
+MAINFILE = "pokedex.csv"
 DBNAME = "pokedex"
 DBUSER = "postgres"
 DBPASS = "admin"
