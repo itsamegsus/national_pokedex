@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <form action="#" method="post" id="pokemon-form">
+        <input type="text" name="name" placeholder="Pokemon name" id="pokemon-name">
+        <select name="pokemon-type-1" id="pokemon-selected-type-1">
+            <option value="0" selected="selected">-all-</option>
+            {% for type in types %}
+            <option value="{{type[0]}}">{{type[1]}}</option>
+            {% endfor %}    
+        </select>
+        <select name="pokemon-type-2" id="pokemon-selected-type-2">
+            <option value="0" selected="selected">-all-</option>
+            {% for type in types %}
+            <option value="{{type[0]}}">{{type[1]}}</option>
+            {% endfor %} 
+        </select>
+        <select name="pokemon-region" id="pokemon-selected-region">
+            <option value="0" selected="selected">-all-</option>
+            {% for region in regions %}
+            <option value="{{region[0]}}">{{region[1]}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit">
+    </form> 
+    {% block content %} {% endblock %}
+    <script>
+        let input_name = document.getElementById("pokemon-name")
+        let select_t1 = document.getElementById('pokemon-selected-type-1');
+        let select_t2 = document.getElementById('pokemon-selected-type-2');
+        let select_region = document.getElementById('pokemon-selected-region');
+        input_name.value = '{{nm}}';
+        select_t1.value = '{{t1}}';
+        select_t2.value = '{{t2}}';
+        select_region.value = '{{re}}';
+        console.log(select_t1.value);
+        console.log(select_t2.value);
+        console.log(select_region.value);
+        console.log(input_name.value);
+        
+        if(select_t1.value === "" && select_t2.value === "" && select_region.value === ""){
+            select_t1.value = "0";
+            select_t2.value = "0";
+            select_region.value = "0";
+        }
+    </script>
+</body> 
+</html>
