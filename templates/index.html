@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %} HOME PAGE {% endblock %}
+{% block content %}
+<table>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Type 1</th>
+        <th>Type 2</th>
+        <th>Region</th>
+    </tr>
+    {% for p in pokemon %}
+        <tr>
+            <td><img src="static/sprites/{{p[0]}}-{{p[1]}}-{{p[2]}}.png" alt=""></td>
+            <td>{{p[2]}}</td>
+            <td>{{p[3]}}</td>
+            <td>{{p[4]}}</td>
+            <td>{{p[5]}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
