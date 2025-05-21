@@ -4,7 +4,6 @@ pokemon_sprites/*
 log_species
 log_variety
 log_sprites
-script.py
 bin/
 lib/
 lib64
