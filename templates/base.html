@@ -9,28 +9,42 @@
     <title>{% block title %} {% endblock %}</title>
 </head>
 <body>
-    <form action="#" method="post" id="pokemon-form">
-        <input type="text" name="name" placeholder="Pokemon name" id="pokemon-name">
-        <select name="pokemon-type-1" id="pokemon-selected-type-1">
-            <option value="0" selected="selected">-all-</option>
-            {% for type in types %}
-            <option value="{{type[0]}}">{{type[1]}}</option>
-            {% endfor %}    
-        </select>
-        <select name="pokemon-type-2" id="pokemon-selected-type-2">
-            <option value="0" selected="selected">-all-</option>
-            {% for type in types %}
-            <option value="{{type[0]}}">{{type[1]}}</option>
-            {% endfor %} 
-        </select>
-        <select name="pokemon-region" id="pokemon-selected-region">
-            <option value="0" selected="selected">-all-</option>
-            {% for region in regions %}
-            <option value="{{region[0]}}">{{region[1]}}</option>
-            {% endfor %}
-        </select>
-        <input type="submit">
-    </form> 
+    <div class="container">
+        <form action="#" method="post" id="pokemon-form">
+            <div class="row">
+                <div class="col-sm">
+                    <input type="text" id="pokemon-name" name="name" class="pokemon-form-item form-control" placeholder="Pokemon Name">
+                </div>
+                <div class="col-sm">
+                    <select class="pokemon-form-item form-select" name="pokemon-type-1" id="pokemon-selected-type-1">
+                        <option value="0" selected>- All -</option>
+                        {% for type in types %}
+                        <option value="{{type[0]}}">{{ type[1]|title}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-sm">
+                    <select class="pokemon-form-item form-select" name="pokemon-type-2" id="pokemon-selected-type-2">
+                        <option value="0" selected="selected">- All -</option>
+                        {% for type in types %}
+                        <option value="{{type[0]}}">{{type[1]|title}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+                <div class="col-sm">
+                    <select class="pokemon-form-item form-select" name="pokemon-region" id="pokemon-selected-region">
+                        <option value="0" selected="selected">- All -</option>
+                        {% for region in regions %}
+                        <option value="{{region[0]}}">{{region[1]|title}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+                <div class="col-sm">
+                    <button class="pokemon-form-item btn btn-primary" type="submit">Search Pokemon</button>
+                </div>
+            </div>
+        </form>
+    </div>
     {% block content %} {% endblock %}
     <script>
         let input_name = document.getElementById("pokemon-name")
