@@ -12,14 +12,14 @@ def connection():
     try:
         con = psycopg2.connect(
             dbname = DBNAME,
-            user = DBUSER, 
+            user = DBUSER,
             host = DBHOST,
             password = DBPASS
         )
         return con
     except Exception as e:
         return e
-    
+
 def get_types():
     query_types = 'SELECT * FROM pokemon_types;'
     con = connection()
@@ -57,17 +57,16 @@ def home():
     regions = get_generations()
 
     if request.method == "POST":
-        try:    
-            
+        try:
             con = connection()
-            cur = con.cursor()            
-            
+            cur = con.cursor()
+
             name = request.form["name"]
             type1 = int(request.form["pokemon-type-1"])
             type2 = int(request.form["pokemon-type-2"])
             region = int(request.form["pokemon-region"])
-           
-            query_search += f" WHERE p.pokemon_name LIKE '%{name}%'" 
+
+            query_search += f" WHERE p.pokemon_name LIKE '%{name}%'"
 
             if type1 != 0:
                 query_search += f" AND p.pokemon_type1 = {type1}"
@@ -83,7 +82,7 @@ def home():
             print(type(pokemon))
             cur.close()
             con.close()
-            
+
             return render_template('index.html', types=types, regions=regions, nm=name, t1=type1, t2=type2, re=region, pokemon=pokemon)
         except Exception as e:
             return render_template('index.html', types=str(e))
@@ -95,10 +94,10 @@ def home():
             cur.execute(query_search)
             pokemon = cur.fetchall()
             cur.close()
-            con.close()   
+            con.close()
             return render_template('index.html', types=types, regions=regions, pokemon=pokemon)
         except Exception as e:
             return render_template('index.html', types=str(e))
-        
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
