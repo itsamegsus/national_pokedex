@@ -2,7 +2,7 @@ This repo project was created to learn how to retrieve data from the pokeapi.co 
 Also its included some scripts to create a postgres database and create their correspondin tables to store such pokemon information.
 
 The data that is retrieve from the api is all kind of pokemon forms except those which are specify inside the main.py script filter function. 
-The main.py file retrieve the following pokemon information from the API
+The main.py file retrieve the following pokemon information from the API.
 
 Pokemon entry
 Pokemon name
