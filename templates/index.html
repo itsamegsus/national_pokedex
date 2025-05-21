@@ -1,23 +1,35 @@
 {% extends "base.html" %}
 {% block title %} HOME PAGE {% endblock %}
 {% block content %}
-<table>
-    <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Type 1</th>
-        <th>Type 2</th>
-        <th>Region</th>
-    </tr>
-    {% for p in pokemon %}
-        <tr>
-            <td><img src="static/sprites/{{p[0]}}-{{p[1]}}-{{p[2]}}.png" alt=""></td>
-            <td>{{p[2]}}</td>
-            <td>{{p[3]}}</td>
-            <td>{{p[4]}}</td>
-            <td>{{p[5]}}</td>
-        </tr>
-    {% endfor %}
-</table>
+<div class="container">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr class="table-dark">
+                <th>NID</th>
+                <th>Artwork</th>
+                <th>Pokemon Name</th>
+                <th>Primary Type</th>
+                <th>Secondary Type</th>
+                <th>Region</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in pokemon %}
+            <tr class="">
+                <td># {{p[1]}}</td>
+                <td class="sprite">
+                    <figure class="figure">
+                        <img src="static/sprites/{{p[0]}}-{{p[1]}}-{{p[2]}}.png" class="figure-img img-fluid rounded">
+                    </figure>
+                </td>
+                <td >{{ p[2].replace("-", " ")|title }}</td>
+                <td>{{p[3]|title }}</td>
+                <td>{{p[4]|title }}</td>
+                <td>{{p[5]|title }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
 
